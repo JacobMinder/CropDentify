@@ -14,11 +14,8 @@ Ensure you have reviewed the [Rules & FAQ](https://hackmidwest.com/#faq)
 ## Who's on your team?
 *List the full names,  email address & Github username of your teammates*
 
-1.   **Full Name**  || **fullname@company.com**  (or fullname@school.edu if you're a CS student) || **Github Username**
-2. 
-3.
-4.
-5.
+1.   Jacob Minder  || s852552@sbuniv.edu  || JacobMinder
+2.   Elijah Daugherty  ||  s851112@sbuniv.edu  || ElijahDaBest
 
 <br /><br />
 
@@ -27,20 +24,20 @@ Ensure you have reviewed the [Rules & FAQ](https://hackmidwest.com/#faq)
 
 <br /><br />
 ## What does your app do?
-*Describe in a paragraph or so*
+NEED DESC
 
 <br /><br />
 
 
 ## What challenges are you building for? SELECT ALL THAT APPLY
 *See hackmidwest.com/#prizes for challenge details*
-- [ ]  Pinata Challenge
+- [X]  Pinata Challenge
 - [ ]  Pinata AI Challenge
-- [ ]  Pinata Enterprise Challenge
-- [ ]  AWS Bedrock Challenge
+- [X]  Pinata Enterprise Challenge
+- [X]  AWS Bedrock Challenge
 - [ ]  Red Hat | Intel AI Challenge
 - [ ]  Zoom Challenge
-- [ ]  USDA Challenge
+- [X]  USDA Challenge
 - [ ]  brAIn Rot Challenge
 
 
