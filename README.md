@@ -21,10 +21,11 @@ Ensure you have reviewed the [Rules & FAQ](https://hackmidwest.com/#faq)
 
 
 ## What is the name of your App?
+CropDentify
 
 <br /><br />
 ## What does your app do?
-NEED DESC
+Our application takes in pictures of crops and identifies if they have diseases. Pictures are taken and are then analyzed in an AWS model that analyzes the picture, identifies the crop, and compares it to similar crops. AWS will return which crop it is most similar to, and if it is a contaminated crop. Our application will identify the crop deformality, and store other metadata about the crop. Using Pinata, the answer to the request will be stored for later retrieval.
 
 <br /><br />
 
