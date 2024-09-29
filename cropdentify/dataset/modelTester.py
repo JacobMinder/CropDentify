@@ -7,7 +7,7 @@ height = 150  # Change to match your model's expected height
 width = 150   # Change to match your model's expected width
 
 # Load the model
-model = load_model(r'C:\\Users\\orion\\git\\CropDentify\\cropdentify\\dataset\\crop_disease_model.h5')
+model = load_model(r'C:\\Users\\orion\\Downloads\\corn_disease_model2(1).h5')
 
 # Function to preprocess the image
 def preprocess_image(img_path):
@@ -18,7 +18,7 @@ def preprocess_image(img_path):
     return img_array  # Return without flattening
 
 # Path to the new image
-img_path = r'C:\\Users\\orion\\git\\CropDentify\\cropdentify\dataset\\good.png'  # Change this to your image path
+img_path = r'C:\\Users\\orion\\dataset\\good.png'  # Change this to your image path
 
 # Preprocess the image and make predictions
 preprocessed_image = preprocess_image(img_path)
@@ -26,20 +26,21 @@ predictions = model.predict(preprocessed_image)
 
 print("Raw predictions:", predictions)
 
+# Get the class labels
+class_labels = ['Anthracnose Stalk Rot','Good Corn', 'Gray Leaf Spot', 'Northern Corn Leaf Blight', 'Southern Rust']
+
 # Set a threshold
 threshold = 0.8  # Choose your threshold value
 
-#  Classify based on the threshold
-if predictions.shape[1] > 1:  # Check if we have more than one class
-    if predictions[0][1] > threshold:  # Assuming index 1 is for "bad corn"
-        result = "good corn"
-    else:
-        result = "bad corn"
-else:
-    # If there's only one class, you can interpret it differently
-    if predictions[0][0] > threshold:  # Assuming index 0 indicates presence of disease
-        result = "good corn"
-    else:
-        result = "bad corn"
+# Determine the predicted class
+predicted_class_index = np.argmax(predictions, axis=1)[0]  # Get the index of the highest probability
+predicted_class = class_labels[predicted_class_index]
+predicted_confidence = predictions[0][predicted_class_index]
 
-print(f"Predicted result: {result}")
+# Check if the confidence is above the threshold
+if predicted_confidence > threshold:
+    result = predicted_class
+else:
+    result = "Uncertain: Not confident in the prediction"
+
+print(f"Predicted result: {result} with confidence: {predicted_confidence:.2f}")
