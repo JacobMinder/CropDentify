@@ -7,6 +7,8 @@ const HomePage: React.FC = () => {
   const streamRef = useRef<MediaStream | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [countdown, setCountdown] = useState<number | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getCameraStream = async () => {
@@ -77,24 +79,31 @@ const HomePage: React.FC = () => {
   };
 
   const analyzePicture = () => {
+    if (!capturedImage) return;
+
+    setIsLoading(true);
+
     fetch('http://localhost:8080/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image: capturedImage})
-    }).then(response => {
-      // Check if the response is ok (status code 200-299)
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json(); // Parse the JSON from the response
+      body: JSON.stringify({ image: capturedImage })
     })
-    .then(data => {
-      console.log("Analysis result:", data); // Log the analysis result
-      // You can also set the result to a state variable to display it
-    })
-    .catch(error => {
-      console.error('Error analyzing the image:', error); // Log any errors
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Analysis result:", data);
+        setAnalysisResult(data);
+      })
+      .catch((error) => {
+        console.error('Error analyzing the image:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -110,18 +119,49 @@ const HomePage: React.FC = () => {
       </div>
       <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-      {/* White box with label before the picture is taken */}
       <div className="image-box">
         <h3>Captured Image:</h3>
         {capturedImage ? (
           <>
             <img src={capturedImage} alt="Captured" className="captured-image" />
-            <button onClick={analyzePicture} className="analyze-button">Analyze</button>
+            <button
+              onClick={analyzePicture}
+              className="analyze-button"
+              style={{
+                backgroundColor: isLoading ? 'gray' : '#4CAF50',
+                color: 'white',
+                cursor: isLoading ? 'not-allowed' : 'pointer'
+              }}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Loading...' : 'Analyze'}
+            </button>
           </>
         ) : (
           <div className="placeholder">No image captured yet</div>
         )}
       </div>
+
+      {analysisResult && (
+        <div className="analysis-results">
+          <h3>
+            <strong>{analysisResult.model_output.result}</strong>
+          </h3>
+          <ul>
+            {analysisResult.model_output.advice ? (
+              analysisResult.model_output.advice
+                .split("\n• ")
+                .map((adviceItem: string, index: number) => (
+                  <li key={index} style={{ color: 'red' }}>
+                    {adviceItem}
+                  </li>
+                ))
+            ) : (
+              <p>No advice available.</p>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -26,7 +26,17 @@ function App() {
 
   return (
     <Router>
-      <Header title="CropDentify" stopCamera={stopCamera} />
+<Header 
+  title={
+    <span>
+      m
+      <span style={{ color: 'yellow' }}>a</span>
+      <span style={{ color: 'green' }}>i</span>
+      z
+    </span>
+  } 
+  stopCamera={stopCamera} 
+/>
       <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
