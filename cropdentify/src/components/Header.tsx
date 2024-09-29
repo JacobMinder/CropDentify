@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ title, stopCamera }) => {
     <header className="app-header">
       <h1 className="header-title">{title}</h1>
       <button onClick={togglePage} className="nav-button">
-        {location.pathname === '/' ? 'Go to Info Page' : 'Go to Home Page'}
+        {location.pathname === '/' ? 'Previous Images' : 'Go to Home Page'}
       </button>
     </header>
   );

@@ -11,3 +11,58 @@
   max-height: 80vh; /* Ensure the video doesn't exceed 80% of screen height */
   object-fit: cover; /* Cover the element's box to maintain the vertical aspect ratio */
 }
+
+.captured-image-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.captured-image {
+  max-width: 100%; /* Responsive image */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.button-container {
+  display: flex; /* Use flexbox for horizontal layout */
+  justify-content: center; /* Center the buttons */
+  margin-top: 10px; /* Space above the buttons */
+}
+
+.capture-button, .timed-capture-button, .import-button {
+  margin: 0 5px; /* Space between buttons */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.image-box {
+  background-color: white; /* White background for the box */
+  border: 1px solid #ccc; /* Optional: Add a light border */
+  padding: 10px; /* Optional: Add some padding */
+  display: flex; /* Center the image */
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: center; /* Center the content */
+  align-items: center; /* Center the content */
+  margin-top: 10px; /* Space above the box */
+}
+
+
+.placeholder {
+  color: #888; /* Optional: Placeholder text color */
+  font-style: italic; /* Optional: Make it italic */
+}
+
+.analyze-button {
+  margin-top: 10px; /* Space above the button */
+  padding: 10px 20px; /* Button padding */
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 16px; /* Font size */
+}
+
+.analyze-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
