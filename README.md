@@ -21,7 +21,7 @@ Ensure you have reviewed the [Rules & FAQ](https://hackmidwest.com/#faq)
 
 
 ## What is the name of your App?
-CropDentify
+maiz
 
 <br /><br />
 ## What does your app do?
