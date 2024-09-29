@@ -1,40 +1,30 @@
-import React, { useState } from "react";
-import { pinata } from "./utils/config";
+import React, { useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import InfoPage from './components/InfoPage';
 import Header from './components/Header';
-import './App.css'; // Import any additional styles if needed
+import './App.css';
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setSelectedFile(event.target.files[0]);
-    }
-  };
-
-  const handleSubmission = async () => {
-    if (!selectedFile) {
-      console.error("No file selected!");
-      return;
-    }
-
-    try {
-      const upload = await pinata.upload.file(selectedFile);
-      console.log(upload);
-    } catch (error) {
-      console.error(error);
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
     }
   };
 
   return (
-    <>
-      <Header title="CropDentify" /> {/* Use the Header component here */}
-      <div style={{ marginTop: '80px', padding: '20px' }}> {/* Add margin to avoid overlap */}
-        <label className="form-label">Choose File</label>
-        <input type="file" onChange={changeHandler} />
-        <button onClick={handleSubmission}>Submit</button>
+    <Router>
+      <Header title="CropDentify" stopCamera={stopCamera} />
+      <div>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/info" element={<InfoPage />} />
+        </Routes>
       </div>
-    </>
+    </Router>
   );
 }
 

@@ -1,0 +1,15 @@
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 10px;
+}
+
+.camera-feed {
+  width: 100%; /* Make the video take the full width of the screen */
+  height: auto;
+  max-height: 80vh; /* Ensure the video doesn't exceed 80% of screen height */
+  object-fit: cover; /* Cover the element's box to maintain the vertical aspect ratio */
+}

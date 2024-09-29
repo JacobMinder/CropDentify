@@ -4,9 +4,9 @@
   left: 0; /* Align to the left of the viewport */
   width: 100%; /* Full width */
   height: 80px; /* Fixed height for the header */
-  background-color: #87CEEB; /* Header background color */
+  background-color: #87CEEB; /* Sky blue color */
   display: flex; /* Use flexbox for alignment */
-  justify-content: center; /* Center content horizontally */
+  justify-content: space-between; /* Space between title and button */
   align-items: center; /* Center content vertically */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
   z-index: 1000; /* Ensure it appears above other content */
@@ -16,5 +16,21 @@
   color: white; /* Title text color */
   font-size: 24px; /* Title font size */
   font-weight: bold; /* Title font weight */
-  margin: 0; /* Remove default margin */
+  margin-left: 20px; /* Add some padding to the left */
+}
+
+.nav-button {
+  background-color: transparent; /* Button background */
+  color: white; /* Button text color */
+  border: 2px solid white; /* Add border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding inside the button */
+  font-size: 18px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-right: 20px; /* Add some padding to the right */
+}
+
+.nav-button:hover {
+  background-color: white; /* Change background color on hover */
+  color: #87CEEB; /* Change text color on hover */
 }
