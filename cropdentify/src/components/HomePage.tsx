@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './HomePage.css';
+import { pinata } from "../utils/config";
 
 const HomePage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -9,6 +10,12 @@ const HomePage: React.FC = () => {
   const [countdown, setCountdown] = useState<number | null>(null);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uploadNotes, setUploadNotes] = useState<boolean>(false); 
+  const [selectedFiles, setSelectedFiles]: any = useState();
+
+  const changeHandler = (event: any) => {
+    setSelectedFiles(event.target.files);
+  };
 
   useEffect(() => {
     const getCameraStream = async () => {
@@ -82,6 +89,7 @@ const HomePage: React.FC = () => {
     if (!capturedImage) return;
 
     setIsLoading(true);
+    setUploadNotes(false); 
 
     fetch('http://localhost:8080/api/analyze', {
       method: 'POST',
@@ -97,6 +105,7 @@ const HomePage: React.FC = () => {
       .then((data) => {
         console.log("Analysis result:", data);
         setAnalysisResult(data);
+        setUploadNotes(true); 
       })
       .catch((error) => {
         console.error('Error analyzing the image:', error);
@@ -104,6 +113,16 @@ const HomePage: React.FC = () => {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+
+  const handleSubmission = async () => {
+    try {
+      if (!selectedFiles) return; // Ensure there are files to upload
+      const upload = await pinata.upload.fileArray(selectedFiles);
+      console.log(upload);
+    } catch (error) {
+      console.error('Error uploading files to Pinata:', error);
+    }
   };
 
   return (
@@ -161,6 +180,18 @@ const HomePage: React.FC = () => {
             )}
           </ul>
         </div>
+      )}
+
+      {uploadNotes && (
+        <>
+          <button 
+            onClick={handleSubmission}
+            className="upload-notes-button" 
+            style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer', borderRadius: '5px' }}
+          >
+            Upload Image and Notes to Pinata
+          </button>
+        </>
       )}
     </div>
   );

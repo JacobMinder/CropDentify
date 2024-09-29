@@ -1,37 +1,13 @@
-.info-container {
-  padding: 20px;
-  text-align: center;
-  background-color: #f4f4f4; /* Light background for the info page */
-  min-height: 100vh; /* Ensures the page takes up full height */
-  padding-top: 50px;
+.image-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.info-title {
-  font-size: 28px;
-  color: #333; /* Dark gray for the title */
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.info-text {
-  font-size: 18px;
-  color: #555; /* Medium gray for text */
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.info-container p {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: left; /* Align text to the left for readability */
-}
-
-@media (max-width: 768px) {
-  .info-title {
-    font-size: 24px; /* Adjust title font size on smaller screens */
-  }
-
-  .info-text {
-    font-size: 16px; /* Adjust text font size on smaller screens */
-  }
+.image-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
 }
