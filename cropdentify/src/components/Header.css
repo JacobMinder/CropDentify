@@ -1,0 +1,20 @@
+.app-header {
+  position: fixed; /* Fix the header at the top */
+  top: 0; /* Align to the top of the viewport */
+  left: 0; /* Align to the left of the viewport */
+  width: 100%; /* Full width */
+  height: 80px; /* Fixed height for the header */
+  background-color: #87CEEB; /* Header background color */
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.header-title {
+  color: white; /* Title text color */
+  font-size: 24px; /* Title font size */
+  font-weight: bold; /* Title font weight */
+  margin: 0; /* Remove default margin */
+}
