@@ -77,8 +77,24 @@ const HomePage: React.FC = () => {
   };
 
   const analyzePicture = () => {
-    // Add logic to analyze the captured image
-    console.log("Analyzing image...");
+    fetch('http://localhost:8080/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: capturedImage})
+    }).then(response => {
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json(); // Parse the JSON from the response
+    })
+    .then(data => {
+      console.log("Analysis result:", data); // Log the analysis result
+      // You can also set the result to a state variable to display it
+    })
+    .catch(error => {
+      console.error('Error analyzing the image:', error); // Log any errors
+    });
   };
 
   return (
