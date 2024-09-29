@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from pinata import Pinata
+import requests
 import os
 import base64
 import numpy as np
@@ -8,20 +10,29 @@ import json
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
+
+pinata = Pinata("c795c662508175e11a57"
+,"5134306df248ad22d76007fb928614671fc9794fe77bd46a708aa275411404e1", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwOWQyNWY1Ny1kN2IxLTQ1ZmEtOTM3MC05Y2EyOWM5YTU5ZDciLCJlbWFpbCI6Impha2V3bWluZGVyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJjNzk1YzY2MjUwODE3NWUxMWE1NyIsInNjb3BlZEtleVNlY3JldCI6IjUxMzQzMDZkZjI0OGFkMjJkNzYwMDdmYjkyODYxNDY3MWZjOTc5NGZlNzdiZDQ2YTcwOGFhMjc1NDExNDA0ZTEiLCJleHAiOjE3NTkwOTAzNTl9.gXylSJt7KE4_tq14Kq-H6jPvECfFcTWdBF6a6F8x1b8"
+)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow logging
+
 
 # Define height and width for your model's input size
 height = 150
 width = 150
 
+
 # Load the model globally to avoid loading it for every request
 model_path = os.path.join(current_dir, 'corn_disease_model.h5')
 model = load_model(model_path)
 
+
 app = Flask(__name__)
 CORS(app, origins='*')
+
 
 @app.route("/api/users", methods=['GET'])
 def users():
@@ -35,6 +46,7 @@ def users():
         }
     )
 
+
 # Function to preprocess the image
 def preprocess_image(img_path):
     img = image.load_img(img_path, target_size=(height, width))
@@ -43,10 +55,12 @@ def preprocess_image(img_path):
     img_array /= 255.0
     return img_array
 
+
 # Define a function to talk to Claude via AWS Bedrock
 def talk_to_Claude(disease):
     client = boto3.client("bedrock-runtime", region_name="us-west-2")
     model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+
 
     def invoke_model(message):
         payload = {
@@ -57,6 +71,7 @@ def talk_to_Claude(disease):
             ]
         }
 
+
         response = client.invoke_model(
             modelId=model_id,
             contentType="application/json",
@@ -64,8 +79,10 @@ def talk_to_Claude(disease):
             body=json.dumps(payload)
         )
 
+
         response_body = json.loads(response["body"].read())
         return response_body["content"][0]["text"]
+
 
     if disease == "Good Corn":
         user_message = "The corn appears to be healthy. Please provide a brief statement about maintaining corn health bullet points and Keep it under 10 lines."
@@ -74,8 +91,10 @@ def talk_to_Claude(disease):
     else:
         user_message = f"Describe the corn disease {disease}. Provide 5 major points of the disease and 5 ways to cure it. Use bullet points and separate with titles. Keep it under 10 lines."
 
+
     response = invoke_model(user_message)
     return response
+
 
 # Define a POST route for image upload and analysis
 @app.route("/api/analyze", methods=['POST'])
@@ -83,32 +102,43 @@ def analyze_image():
     try:
         # Extract JSON data from the request
         data = request.json
-        
+       
         # Expecting base64 image data in the 'image' field
         image_data = data['image']
+
 
         header, encoded = image_data.split(',', 1)  # Get the base64 part
         decoded_image = base64.b64decode(encoded)  # Decode the base64 image data
 
+
         img_path = 'temp_image.png'  # Path to save the image
+
         with open(img_path, 'wb') as f:
             f.write(decoded_image)
+        payload = {}
+  
+        file = [('file', ('file', open('C:\\Users\\jakew\\git\\maizen\\flask-server\\temp_image.png', 'rb'), 'image/png'))]       
+        headers = {'Authorization':'Bearer ' +'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwOWQyNWY1Ny1kN2IxLTQ1ZmEtOTM3MC05Y2EyOWM5YTU5ZDciLCJlbWFpbCI6Impha2V3bWluZGVyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJjNzk1YzY2MjUwODE3NWUxMWE1NyIsInNjb3BlZEtleVNlY3JldCI6IjUxMzQzMDZkZjI0OGFkMjJkNzYwMDdmYjkyODYxNDY3MWZjOTc5NGZlNzdiZDQ2YTcwOGFhMjc1NDExNDA0ZTEiLCJleHAiOjE3NTkwOTAzNTl9.gXylSJt7KE4_tq14Kq-H6jPvECfFcTWdBF6a6F8x1b8'}
+        responce = requests.request('POST','https://api.pinata.cloud/pinning/pinFileToIPFS',headers = headers,data={},files=file)
 
         # Preprocess the image
         preprocessed_image = preprocess_image(img_path)
 
+
         # Make predictions
         predictions = model.predict(preprocessed_image)
         print("Raw predictions: ", predictions)
-        
+       
         # Get class labels
         class_labels = ['Anthracnose Stalk Rot', 'Good Corn', 'Gray Leaf Spot', 'Northern Corn Leaf Blight', 'Southern Rust']
         threshold = 0.8  # Choose your threshold value
+
 
         # Determine the predicted class
         predicted_class_index = np.argmax(predictions, axis=1)[0]
         predicted_class = class_labels[predicted_class_index]
         predicted_confidence = float(predictions[0][predicted_class_index])  # Convert to native float
+
 
         # Check if the confidence is above the threshold and determine result
         if predicted_confidence > threshold and predicted_class != "Good Corn":
@@ -118,23 +148,30 @@ def analyze_image():
         else:
             result = "Uncertain"
 
+
         # Get advice from Claude
         advice = talk_to_Claude(result)
-
+       
         output = {
             "result": result,
             "confidence": predicted_confidence,  # Already converted
             "advice": advice
         }
 
+
         return jsonify({
             "message": "Image received and processed",
             "image_data_length": len(image_data),
             "model_output": output
         })
-    
+   
     except Exception as e:
         print(f"Error: {e}")  # Print the error message
         return jsonify({"error": str(e)}), 400
+   
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
+
+
