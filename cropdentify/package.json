@@ -10,7 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
   "pinata": "^1.4.1",
+=======
+    "@aws-sdk/client-bedrock-runtime": "^3.658.1",
+    "pinata": "^1.4.1",
+>>>>>>> a297863dbf4839c08642093c83d7e54043f6e37c
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-native": "^0.75.3",
