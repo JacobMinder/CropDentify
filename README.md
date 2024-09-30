@@ -43,3 +43,8 @@ Our application takes in pictures of crops and identifies if they have diseases.
 
 
 <br /><br />
+
+## Demo Video
+
+Watch the demo video on [YouTube](https://youtu.be/SMl11YUKj-Q?si=FSSup1YlapRAbMRO).
+Note the video will not have the advice since Claude access is removed.
