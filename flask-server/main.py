@@ -150,12 +150,12 @@ def analyze_image():
 
 
         # Get advice from Claude
-        advice = talk_to_Claude(result)
+        # advice = talk_to_Claude(result)
        
         output = {
             "result": result,
             "confidence": predicted_confidence,  # Already converted
-            "advice": advice
+            # "advice": advice
         }
 
 

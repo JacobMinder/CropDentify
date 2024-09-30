@@ -166,19 +166,6 @@ const HomePage: React.FC = () => {
           <h3>
             <strong>{analysisResult.model_output.result}</strong>
           </h3>
-          <ul>
-            {analysisResult.model_output.advice ? (
-              analysisResult.model_output.advice
-                .split("\n• ")
-                .map((adviceItem: string, index: number) => (
-                  <li key={index} style={{ color: 'red' }}>
-                    {adviceItem}
-                  </li>
-                ))
-            ) : (
-              <p>No advice available.</p>
-            )}
-          </ul>
         </div>
       )}
 
